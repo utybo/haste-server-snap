@@ -22,7 +22,7 @@ distributions.</p>
 
 Install the Haste server like any other snap
 
-    sudo snap install haste-server
+    sudo snap install --channel=beta haste-server
 
 The server uses a daemon, which means that instead of running it directly, you
 must use snap's `enable`, `disable`, `start` and `stop` commands. The snap 
@@ -45,10 +45,15 @@ The config.js file is available at `/var/snap/haste-server/common/config.js`.
 
 The default data location is `/var/snap/haste-server/common/data`.
 
+**You can also store the data folder somewhere under `/media`, but you need to run this:**
+
+```
+sudo snap connect haste-server:removable-media
+```
+
+By default, snaps are not allowed to access removable media, and this command grants the Haste server snap this permission.
+
 ## Remaining tasks
-<!-- Uncomment and modify this when you have a screenshot
-![haste-server](screenshot.png?raw=true "haste-server")
--->
 
 Snapcrafters ([join us](https://forum.snapcraft.io/t/join-snapcrafters/1325)) 
 are working to land snap install documentation and
@@ -65,9 +70,9 @@ upstream so haste-server can authoritatively publish future releases.
   - [x] Publish the `devmode` snap in the Snap store edge channel
   - [x] Add install instructions to this `README.md`
   - [x] Update snap store metadata, icons and screenshots
-  - [ ] Convert the snap to `strict` confinement, or `classic` confinement if it qualifies
-  - [ ] Publish the confined snap in the Snap store beta channel
-  - [ ] Update the install instructions in this `README.md`
+  - [x] Convert the snap to `strict` confinement, or `classic` confinement if it qualifies
+  - [x] Publish the confined snap in the Snap store beta channel
+  - [x] Update the install instructions in this `README.md`
   - [ ] Post a call for testing on the [Snapcraft Forum](https://forum.snapcraft.io) - [link]()
   - [ ] Make a post in the [Snapcraft Forum](https://forum.snapcraft.io) asking for a transfer of the snap name from you to snapcrafters - [link]()
   - [ ] Ask a [Snapcrafters admin](https://github.com/orgs/snapcrafters/people?query=%20role%3Aowner) to fork your repo into github.com/snapcrafters, and configure the repo for automatic publishing into edge on commit

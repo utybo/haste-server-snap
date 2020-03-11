@@ -9,7 +9,7 @@ description: |
 grade: devel
 adopt-info: server
 
-confinement: devmode # use 'strict' once you have the right plugs and slots
+confinement: strict
 base: core18
 
 parts:
@@ -45,6 +45,7 @@ apps:
   haste-server:
     command: bin/haste_start
     daemon: simple
+    plugs: [network, network-bind, removable-media]
 
 system-usernames:
   snap_daemon: shared
