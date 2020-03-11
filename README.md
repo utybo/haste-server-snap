@@ -20,13 +20,30 @@ distributions.</p>
 
 ## Install
 
+Install the Haste server like any other snap
+
     sudo snap install haste-server
 
-<!-- Uncomment and modify this when your snap is available on the store
+The server uses a daemon, which means that instead of running it directly, you
+must use snap's `enable`, `disable`, `start` and `stop` commands. The snap 
+automatically starts on system startup if it is enabled.
+
+* To start the snap: `sudo snap start haste-server`
+* To stop the snap: `sudo snap stop haste-server`
+* To disable the snap (stop it from automatically running): `sudo snap disable haste-server`
+* To enable the snap: `sudo snap enable haste-server`
+
+The snap is autoamtically enabled and started when you first install it.
+
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/haste-server)
--->
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
+
+### Configuration
+
+The config.js file is available at `/var/snap/haste-server/common/config.js`.
+
+The default data location is `/var/snap/haste-server/common/data`.
 
 ## Remaining tasks
 <!-- Uncomment and modify this when you have a screenshot
@@ -46,8 +63,8 @@ upstream so haste-server can authoritatively publish future releases.
   - [x] Register the snap in the store, **using the preferred upstream name**
   - [x] Add a screenshot to this `README.md`
   - [x] Publish the `devmode` snap in the Snap store edge channel
-  - [ ] Add install instructions to this `README.md`
-  - [ ] Update snap store metadata, icons and screenshots
+  - [x] Add install instructions to this `README.md`
+  - [x] Update snap store metadata, icons and screenshots
   - [ ] Convert the snap to `strict` confinement, or `classic` confinement if it qualifies
   - [ ] Publish the confined snap in the Snap store beta channel
   - [ ] Update the install instructions in this `README.md`
