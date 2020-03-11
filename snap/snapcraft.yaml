@@ -1,15 +1,50 @@
-name: my-snap-name # you probably want to 'snapcraft register <name>'
-version: '0.1' # just for humans, typically '1.2+git' or '1.3.2'
-summary: Single-line elevator pitch for your amazing snap # 79 char long summary
+name: haste-server # you probably want to 'snapcraft register <name>'
+summary: Open source pastebin written in node.js
 description: |
-  This is my-snap's description. You have a paragraph or two to tell the
-  most important story about your snap. Keep it under 100 words though,
-  we live in tweetspace and your description wants to look good in the snap
-  store.
+  Haste is an open-source pastebin software written in node.js, which is easily
+  installable in any network. It can be backed by either redis or filesystem,
+  and has a very easy adapter interface for other stores. A publicly available
+  version can be found at hastebin.com
+
+grade: devel
+adopt-info: server
 
 confinement: devmode # use 'strict' once you have the right plugs and slots
+base: core18
 
 parts:
-  my-part:
-    # See 'snapcraft plugins'
-    plugin: nil
+  # The startup-script
+  startup-script:
+    plugin: dump
+    source: scripts/
+    organize: 
+      haste_start: bin/haste_start
+  # The default configuration file
+  default-config:
+    plugin: dump
+    source: defaults/
+  # haste-server itself
+  server:
+    plugin: nodejs
+    source-type: git
+    source: https://github.com/seejohnrun/haste-server
+    nodejs-package-manager: npm
+    # By default (*sigh*), the config is loaded from the working directory
+    # We just redirect it to the correct place (in $SNAP_COMMON) so that it's in
+    # a read-write place.
+    # Also remove package-lock.json because that made the build process fail 
+    # somehow.
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version `git rev-parse --short HEAD`
+      
+      sed -i -e "s:'./config.js':process.env.SNAP_COMMON + '/config.js':g" server.js
+      rm package-lock.json
+
+apps:
+  haste-server:
+    command: bin/haste_start
+    daemon: simple
+
+system-usernames:
+  snap_daemon: shared

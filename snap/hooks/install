@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+CONFIG_FILE=$SNAP_COMMON/config.js
+DEFAULT_DATA_DIR=$SNAP_COMMON/data
+
+if [ ! -f $CONFIG_FILE ]; then
+    # File Not Found, Create it
+    cat $SNAP/config.js.default > $CONFIG_FILE
+fi
+
+if [ ! -d $DEFAULT_DATA_DIR ]; then
+    # Data folder does not exist, create it
+    mkdir $DEFAULT_DATA_DIR
+    # from https://snapcraft.io/docs/system-usernames section Ownership
+    chmod 770 "$DEFAULT_DATA_DIR"
+    chown snap_daemon "$DEFAULT_DATA_DIR"
+    chgrp root "$DEFAULT_DATA_DIR"
+fi
